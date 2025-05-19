@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluasi Performa Bangunan</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url('sean-pollock-PhYq704ffdA-unsplash.jpg') no-repeat center center/cover;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: rgba (255, 255, 255, 0,1);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            backdrop-filter: blur(15px);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            font-weight: bold;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin: 6px 0 16px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #2e86de;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #1b4f72;
+        }
+        .results {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #709982;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Evaluasi Performa Bangunan</h1>
+        <form id="performanceForm">
+            <label for="energy">Konsumsi Energi (kWh/bulan):</label>
+            <input type="number" id="energy" required>
+
+            <label for="area">Luas Bangunan (m²):</label>
+            <input type="number" id="area" required>
+
+            <label for="temp">Suhu Dalam Ruangan (°C):</label>
+            <input type="number" id="temp" required>
+
+            <label for="co2">Level CO₂ (ppm):</label>
+            <input type="number" id="co2" required>
+
+            <label for="humidity">Kelembaban (%):</label>
+            <input type="number" id="humidity" required>
+
+            <button type="submit">Evaluasi</button>
+        </form>
+
+        <div class="results" id="results" style="display: none;">
+            <h3>Hasil Evaluasi:</h3>
+            <p id="energyResult"></p>
+            <p id="tempResult"></p>
+            <p id="airResult"></p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("performanceForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const energy = parseFloat(document.getElementById("energy").value);
+            const area = parseFloat(document.getElementById("area").value);
+            const temp = parseFloat(document.getElementById("temp").value);
+            const co2 = parseFloat(document.getElementById("co2").value);
+            const humidity = parseFloat(document.getElementById("humidity").value);
+
+            let energyPerM2 = energy / area;
+            let energyResult = "Efisiensi Energi: ";
+            if (energyPerM2 < 10) {
+                energyResult += "Baik";
+            } else if (energyPerM2 < 20) {
+                energyResult += "Sedang";
+            } else {
+                energyResult += "Buruk";
+            }
+
+            let tempResult = "Kenyamanan Termal: ";
+            if (temp >= 22 && temp <= 26) {
+                tempResult += "Nyaman";
+            } else if ((temp >= 20 && temp < 22) || (temp > 26 && temp <= 28)) {
+                tempResult += "Sedang";
+            } else {
+                tempResult += "Tidak Nyaman";
+            }
+
+            let airResult = "Kualitas Udara: ";
+            if (co2 < 600 && humidity >= 30 && humidity <= 60) {
+                airResult += "Baik";
+            } else if (co2 < 1000 && humidity >= 20 && humidity <= 70) {
+                airResult += "Sedang";
+            } else {
+                airResult += "Buruk";
+            }
+
+            document.getElementById("energyResult").textContent = energyResult;
+            document.getElementById("tempResult").textContent = tempResult;
+            document.getElementById("airResult").textContent = airResult;
+            document.getElementById("results").style.display = "block";
+        });
+    </script>
+</body>
+</html>
